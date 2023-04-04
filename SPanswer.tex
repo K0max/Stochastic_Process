@@ -12,6 +12,7 @@
 \usepackage{url}%提供\url{}命令，防止有些url里面会有下划线_，这样会报错没有使用$$数学环境
 \usepackage{float}%浮动体包，以figure浮动体为例，提供\begin{figure}[H]，H参数表示强制将浮动体放在此处，禁止浮动
 \usepackage{enumitem}%提供特殊标号，如\begin{enumerate}[label=(\roman*)]，或者[label=(\chinese*)]或[label=(\alph*)]等，比enumerate包更自由
+\usepackage{booktabs}%提供三线表等
 \usepackage{color}%提供颜色
 \usepackage{geometry}%定制页面布局
 \usepackage{framed}%提供定制framed环境，如23,24行定制的problem环境
@@ -19,15 +20,17 @@
 \usetikzlibrary{arrows.meta}%提供tikz特殊箭头
 \usetikzlibrary{positioning}%提供TikZ各node的相对位置
 \usetikzlibrary{decorations.pathreplacing}%提供大括号显示某段距离
-\usepackage{hyperref}%提供超链接，hyperref包一定要放在最后引用，因为它大量renewcommand了一些命令
+
+\usepackage[colorlinks,linkcolor=blue,anchorcolor=red,citecolor=green]{hyperref}
+%提供超链接，hyperref包一定要放在最后引用，因为它大量renewcommand了一些命令
 
 \geometry{
   textwidth=140mm,
   textheight=220mm,
-  left=27mm,
-  right=27mm,
-  top=25.4mm, 
-  bottom=25.4mm,
+  left=25mm,
+  right=25mm,
+  top=20mm, 
+  bottom=20mm,
   headheight=2cm,
   headsep=4mm,
   footskip=12mm,
@@ -40,14 +43,14 @@
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\var}{\mathrm{Var}}
 \newcommand{\cov}{\mathrm{Cov}}
-\renewcommand{\d}{\,\mathrm{d}}
+\renewcommand{\d}{\mathop{}\!\mathrm{d}}
 \newcommand{\p}{\mathbb{P}}
-\newcommand{\iid}{\,\mathrm{i.i.d.}\,}
+\newcommand{\iid}{\mathop{}\!\mathrm{i.i.d.}}
 \newcommand{\poi}{\text{Poi}\,}
 \newcommand{\Exp}{\text{Exp}\,}
 \newcommand{\res}{\text{Res}}
 
-\title{方兆本随机过程第三版答案整理}
+\title{《方兆本随机过程第三版》答案整理}
 \author{ypa}
 \date{2022.12.19\\ Last Modified: \today}
 
@@ -56,21 +59,27 @@
 
 \setcounter{section}{-1}
 \section{前言}
-尚未完成的题目:
-\begin{enumerate}[label=(\chinese*)]
-	\item 1.11
-	\item 2.5
-	\item 3.25-3.31
-	\item 4.9 4.18 4.19 4.30 4.32 4.33 4.35-4.42
+\noindent{}尚未完成的题目:
+\begin{enumerate}[label=(\chinese*)]\vspace{-1em}
+  \item 1.11\vspace{-1em}
+  \item 2.5\vspace{-1em}
+  \item 3.25-3.31\vspace{-1em}
+  \item 4.9 4.18 4.19 4.30 4.32 4.33 4.35-4.42\vspace{-1em}
 \end{enumerate}
-第三章Markov过程中纯生过程、生灭过程、分支过程不讲；第四章平稳过程中白噪声序列、AR($p$)模型、Yule-Walker方程等不讲
+第三章Markov过程中纯生过程、生灭过程、分支过程不讲；第四章平稳过程中白噪声序列、AR($p$)模型、Yule-Walker方程等不讲\\
+欢迎访问主页\url{http://home.ustc.edu.cn/~cc22155}\quad 本答案的PDF文件和LaTeX文件可在主页下载,\vspace{-1em}
+\begin{itemize}
+  \item \url{http://home.ustc.edu.cn/~cc22155/resource/SPanswer.pdf}\vspace{-1em}
+	\item \url{http://home.ustc.edu.cn/~cc22155/resource/SPanswer.tex}
+\end{itemize}\vspace{-1em}
+如有错漏,欢迎联系\href{mailto:lzw2003@mail.ustc.edu.cn}{\texttt{lzw2003@mail.ustc.edu.cn}}
 
 \tableofcontents
 
 \clearpage
 \section{第一章~引论}
 \begin{problem}{1.1}
-    令$X(t)$为二阶矩存在的随机过程. 试证它是宽平稳的当且仅当$\E[X(t)]$与$\E[X(t)X(s+t)]$都不依赖$s$.
+    令$X(t)$为二阶矩存在的随机过程. 试证它是宽平稳的当且仅当$\E[X(s)]$与$\E[X(s)X(s+t)]$都不依赖$s$.
 \end{problem}
 \begin{solution}
     \textcolor{blue}{充分性：}\\
@@ -86,13 +95,12 @@
     \]
     $\therefore X(t)$是宽平稳的\\
     \textcolor{blue}{必要性：}\\
-    若$X(t)$宽平稳则$\E[X(S)]$为常数$m$， 即$\E[X(S)]$与$s$无关\\
-	则
+    若$X(t)$宽平稳则$\E[X(S)]$为常数$m$， 即$\E[X(S)]$与$s$无关\\ 则
     \[
-        \begin{aligned}
-         R_X(s, s') & = \E[X(s)X(s')] - \E[X(s)]\E[X(s')] \\
+      \begin{aligned}
+        R_X(s, s') & = \E[X(s)X(s')] - \E[X(s)]\E[X(s')] \\
         & = g(s' - s) \\
-        \end{aligned}
+      \end{aligned}
     \]
     令$s' = s + t$ \\
     则$\E[X(s)X(s+t)] = m^2 + g(t)$与$s$无关\\
@@ -101,17 +109,17 @@
 \begin{problem}{1.2}
     记$U_1, \cdots, U_n$为在$(0,1)$中均匀分布的独立随机变量. 对$0<t,x<1$定义
     \[ I(t,x) =
-		\begin{cases}
-		1, & \text{ $x \leqslant t$,} \\
-		0, & \text{ $x > t$,}
-		\end{cases}
-	\]
+      \begin{cases}
+        1, & \text{ $x \leqslant t$,} \\
+        0, & \text{ $x > t$,}
+      \end{cases}
+	  \]
     并记$\displaystyle X(t) = \frac{1}{n}\sum^n_{k=1}I(t,U_k), 0 \leqslant t \leqslant 1, $这是$U_1, \cdots, U_n$的经验分布函数. 试求过程$X(t)$的均值和协方差函数.
 \end{problem}
 \begin{solution}
-    \[\E[X(t)] = \E\left[\frac{1}{n}\sum^n_{k=1}I(t, U_k)\right] = \E[I(t, U_1)] = \int^t_0 1 \d x = t\]
+  \[\E[X(t)] = \E\left[\frac{1}{n}\sum^n_{k=1}I(t, U_k)\right] = \E[I(t, U_1)] = \int^t_0 1 \d x = t\]
 	\[\begin{aligned}
-	R_X(s, t) & = \E [X(s)X(t)] - \E[X(s)\E X(t)]\\
+	R_X(s, t) & = \E [X(s)X(t)] - \E[X(s)]\E[X(t)]\\
 			& = \E\left[\frac{1}{n^2}\sum_{i=1}^n I(s, U_i) \cdot \sum_{j=1}^n I(s, U_j)\right] - st\\
 			& = \frac{1}{n^2}\Big\{(n^2 - n)\E[I(s, U_1) \cdot I(t, U_2)] + n\E[I(s, U_1) \cdot I(t, U_1)]\Big\} - st\\
 			& = \frac{1}{n^2}[(n^2 - n)st + n \cdot \min(s, t)] - st\\
@@ -120,12 +128,12 @@
 \end{solution}
 
 \begin{problem}{1.3}
-    令$Z_1, Z_2$为独立的正态随机变量,均值为$0$,方差为$\sigma^2$,~$\lambda$为实数.定义过程$X(t) = Z_1\cos\lambda t + Z_2\sin\lambda t$.试求$X(t)$的均值函数和协方差函数.它是宽平稳的吗?
+  令$Z_1, Z_2$为独立的正态随机变量,均值为$0$,方差为$\sigma^2$,~$\lambda$为实数.定义过程$X(t) = Z_1\cos\lambda t + Z_2\sin\lambda t$.试求$X(t)$的均值函数和协方差函数.它是宽平稳的吗?
 \end{problem}
 \begin{solution}
-    \[\begin{aligned}
+  \[\begin{aligned}
 	\E[X(t)] & = \E(Z_1)\cos \lambda t + \E(Z_2)\sin\lambda t = 0\\
-	R_X(s, t) & = \cov[(Z_1\cos\lambda s + Z_2\sin\lambda s), (Z_z\cos\lambda t + Z_2\sin\lambda t)]\\
+	R_X(s, t) & = \cov[(Z_1\cos\lambda s + Z_2\sin\lambda s), (Z_1\cos\lambda t + Z_2\sin\lambda t)]\\
 			& = \cov(Z_1, Z_1)\cos\lambda s \cos\lambda t + \cov(Z_2, Z_2)\sin\lambda s \sin\lambda t\\
 			& = \sigma^2\cos\lambda(s - t)\\
 	\end{aligned}\]
@@ -133,32 +141,32 @@
 \end{solution}
 
 \begin{problem}{1.4}
-    Poisson过程$X(t), t \geqslant 0 $满足
-    \begin{enumerate}[label=(\roman*)]
-        \item $X(t) = 0$
-        \item 对$t > s$,~$X(t) - X(s)$~服从均值为$\lambda (t-s)$的Possion分布
-        \item 过程是有独立增量的.~
-    \end{enumerate}
-    试求其均值函数和协方差函数.它是宽平稳的吗?
+  Poisson过程$X(t), t \geqslant 0 $满足
+  \begin{enumerate}[label=(\roman*)]
+      \item $X(t) = 0$
+      \item 对$t>s,\,X(t) - X(s)$~服从均值为$\lambda(t-s)$的Possion分布
+      \item 过程是有独立增量的.
+  \end{enumerate}
+  试求其均值函数和协方差函数.它是宽平稳的吗?
 \end{problem}
-\begin{solution}
-    \[\begin{aligned}
-	\E[X(t)] & = \E [X(t) - X(0)] = \lambda t\\
-	R_X(s, t) & = \cov[X(t), X(s)]\\
-			& = \cov\left[\big(X(s) - X(t) + X(t) - X(0)\big), \big(X(t) - X(0)\big)\right]\\
-			& = \cov(X(t) - X(0), X(t) - X(0)) \quad \text{（独立增量）}\\
-			& = \lambda t \quad (s \geqslant t)
+\begin{solution}[\color{red}\footnote{注意答案中的协方差函数假设$\color{red} s\geqslant t$}]
+  \[\begin{aligned}
+		\E[X(t)] & = \E[X(t)-X(0)] = \lambda t\\
+		R_X(s, t) & = \cov[X(t), X(s)]\\
+				& = \cov\left[\big(X(s)-X(t)+X(t)-X(0)\big), \big(X(t)-X(0)\big)\right]\\
+				& = \cov(X(t) - X(0), X(t) - X(0)) \quad \text{（独立增量）}\\
+				& = \lambda t \quad \color{red}(s \geqslant t)
 	\end{aligned}\]
-	故非宽平稳
+	均值不为常数,协方差非仅与$\tau=s-t$有关,故非宽平稳
 \end{solution}
 
 \begin{problem}{1.5}
-    $X(t)$为第4题中的Possion过程. 记$Y(t) = X(t+1) - X(t)$, 试求过程$Y(t)$的均值函数和协方差函数, 并研究其平稳性.
+  $X(t)$为第4题中的Possion过程. 记$Y(t)=X(t+1)-X(t)$, 试求过程$Y(t)$的均值函数和协方差函数, 并研究其平稳性.
 \end{problem}
 \begin{solution}
-    \[\begin{aligned}
-	\E[Y(t)] & = \E[X(t+1)] - \E[X(t)] = \lambda\\
-	R_X(s, t) & = \cov(X(s+1) - X(s), X(t+1) - X(t))\\
+  \[\begin{aligned}
+    \E[Y(t)] & = \E[X(t+1)]-\E[X(t)] = \lambda\\
+    R_X(s, t) & = \cov(X(s+1)-X(s), X(t+1)-X(t))\\
 			& = \cov(X(s+1), X(t+1)) + \cov(X(s), X(t))\\
 			& \qquad - \cov(X(s), X(t+1)) - \cov(X(s+1), X(t))\\
 			& = \lambda [\min (s+1, t+1) + \min (s, t) - \min (s, t+1) - \min (s+1, t)]\\
@@ -232,14 +240,14 @@
 			\draw (-0.865,0)node[above]{$(-\frac{\sqrt{3}}{2},0)$};
 			\fill (1,0)circle(0.05) (-0.865,0)circle(0.05);
 			\draw (-1.3,-1.3)--(1.3,1.3)node[above]{$y=x$};
-		\end{tikzpicture}	
+		\end{tikzpicture}
 	\end{minipage}
 	\begin{minipage}[c]{0.65\textwidth}
 		由对称性得,
 		\[\begin{aligned}
 			&\p\left(X^2+Y^2 \geqslant \frac{3}{4} \bigg| X > Y\right)\\
 			=& \frac{1}{2}\cdot \p\left(X^2+Y^2 \geqslant \frac{3}{4} \right)\\
-			=&\frac{1}{2}\cdot (1-\frac{3}{4})=\frac{1}8\\
+			=&\frac{1}{2}\cdot \left(1-\frac{3}{4}\right)=\frac{1}8\\
 		\end{aligned}\]
 	\end{minipage}
 \end{solution}
@@ -260,7 +268,7 @@
 \end{solution}
 
 \begin{problem}{1.11}
-	$X, Y$为两独立随机变量且分布相同. 证明$\E (X|X+Y = z) = \E (Y|X+Y = z)$. 并试求基于$X+Y=z$的$X$的最佳预报, 并求出预报误差$\E (X-\phi (X+Y))^2$
+	$X, Y$为两独立随机变量且分布相同. 证明$\E(X|X+Y = z) = \E(Y|X+Y = z)$. 并试求基于$X+Y=z$的$X$的最佳预报, 并求出预报误差$\E(X-\phi (X+Y))^2$
 \end{problem}
 \begin{solution}
 	本题暂缺
@@ -435,8 +443,8 @@
 \end{problem}
 \begin{solution}
 	\[\begin{aligned}
-	\text{原式} & = \E[N(t)\textcolor{red}{(}N(t+s)-N(t)+N(t)\textcolor{red}{)}]\\
-		& = \E[N(t)\textcolor{red}{(}N(t+s)-N(t)\textcolor{red}{)}]+\E[N^2(t)]\\
+	\text{原式} & = \E\Big\{ N(t)\big[ N(t+s)-N(t)+N(t)\big] \Big\}\\
+		& = \E\Big\{ N(t)\big[ N(t+s)-N(t)\big] \Big\}+\E[N^2(t)]\\
 		& = \lambda t \cdot \lambda s + \var[N(t)] + \E^2[N(t)]\\
 		& = \lambda ^2 ts+\lambda t + (\lambda t)^2\\
 		& = \lambda ^2 t(s+t)+\lambda t
@@ -539,13 +547,22 @@
 	将之分为三段，然后得到类似多项分布的结论(分三组乘起来)
 	\[f_{W_r|N(t)=n}(w_r|n) = \frac{n!}{(r-1)!\cdot 1 \cdot (n-r)!}\left(\frac{w_r}{t}\right)^{r-1}\cdot \frac{1}{t}\cdot \left(\frac{t-w_r}{t}\right)^{n-r}\]
 \end{solution}
+\begin{solution}[3]
+	比较暴力的方法.因为泊松分布两次事件之间的时间间隔$W_{i+1}-W_{i}=\delta_i$遵循指数分布$\delta_i\sim \Exp(\lambda)$,利用$\mathbf{1.13}$的结论$W_r=\sum_{i=1}^{r}\delta_i \sim \Gamma(r,\lambda)$有:
+	\[\begin{aligned}
+		f_{W_r}(w_r) &= \frac{\lambda \e^{-\lambda w_r}(\lambda w_r)^{r-1}}{(r-1)!}\\
+		f_{W_r|N(t)=n}(w_r|n) &= \frac{f_{W_r}(w_r)\cdot \p(\text{$t-w_r$间到达了$n-r$次})}{\p[(N(t)=n]} = \frac{f_{W_r}(w_r)\cdot \p[N(t)-N(w_r)=n-r]}{\p[N(t)=n]}\\
+		&= \frac{\frac{\lambda \e^{-\lambda w_r}(\lambda w_r)^{r-1}}{(r-1)!}\cdot \frac{\e^{-\lambda(t-w_r)}[\lambda(t-w_r)]^{n-r}}{(n-r)!}}{\frac{\e^{-\lambda t}(\lambda t)^n}{n!}}\\
+		&= \frac{n!}{(r-1)!(n-r)!}\frac{(w_r)^{r-1}(t-w_r)^{n-r}}{t^n}
+	\end{aligned}\]
+\end{solution}
 
 \begin{problem}{2.8}
 	令$\{N_i(t), t\geqslant 0\}, i = 1,2,\cdots, n$为n个独立的有相同强度参数$\lambda$的Possion过程. 记$T$为在全部$n$个过程中至少发生了一件事的时刻, 试求$T$的分布.
 \end{problem}
-\begin{solution}
+\begin{solution}[1]
 	本题与1.14几乎一样，是Poisson和 \Exp 的一体两面.\\
-	记$N(t)=N_1(t)+\cdots +N_n(t)\Rightarrow N(t)\sim \poi (n\lambda)$,其对应首达时$X\sim \Exp(n\lambda)$
+	记$N(t)=N_1(t)+\cdots +N_n(t)\Rightarrow N(t)\sim \poi (n\lambda t)$,其对应首达时$X\sim \Exp(n\lambda)$
 	\begin{align*}
 		F_T(t) & = \p[T \leqslant t] = 1 - \p(T<t)\\
 			& = 1 - \p[N_i(t) = 0, i= 1, 2, \cdots, n]\\
@@ -553,6 +570,14 @@
 		\end{align*}
 		$\therefore f_T(t) = F'_T(t) = n\lambda \e^{-n\lambda t}$\\
 		即$T$服从参数为$n\lambda$的指数分布.
+\end{solution}
+\begin{solution}[2]
+	大差不差,$N(t)=\sum_{i=1}^{n}N_i(t)\sim \poi(n\lambda t)$,那么
+	\[\begin{aligned}
+		\p[N(t)\geqslant 1] &= \sum_{k=1}^{\infty}\p[N(t)=k] = 1-\p[N(t)=0]\\
+		&= 1-\e^{-n\lambda t}\\
+		f_T(t) &= \frac{\d}{\d t}\p[N(t)\geqslant 1] = n\lambda \e^{-n\lambda t}
+	\end{aligned}\]
 \end{solution}
 
 \begin{problem}{2.9}
@@ -564,7 +589,7 @@
 		\item $N_1(0)=0$
 		\item $\{N_1(t):t\geqslant 0\}$是独立增量过程
 	\end{enumerate}
-	从而对$0\leqslant s<t$,$N_1(t)-N_1(s)$服从参数为$\lambda p(t-s)$的Poisson分布.
+	从而,对$0\leqslant s<t$,$N_1(t)-N_1(s)$服从参数为$\lambda p(t-s)$的Poisson分布.
 	故$\{N_1(t):t\geqslant 0\}$是参数为$\lambda p$的Possion过程.
 \end{solution}
 
@@ -576,15 +601,20 @@
 	$\therefore N(t)$是强度为$\lambda_1+\lambda_2$的Possion过程\\
 	记$W_1,W_2$分别为卡车、小汽车的第一次到达时间, 则$W_1$服从参数为$\lambda_1$的指数分布, $W_1$服从参数为$\lambda_1$的指数分布.
 	\[\begin{split}
-	\therefore P(W_1 < W_2) & = \iint\limits_{0 \leqslant W_1 < W_2 \leqslant +\infty}f_{W_1,W_2}(w_1,w_2)\d w_1\d w_2\\
-	& = \int^{+\infty}_0\d w_1\int^{+\infty}_{w_1}\lambda_1\lambda_2\e^{-w_1\lambda_1-w_2\lambda_2}\,\d w_2\\
-	& = \frac{\lambda_1}{\lambda_1+\lambda_2}
+		\therefore \p(W_1 < W_2) & = \iint\limits_{0 \leqslant W_1 < W_2 \leqslant +\infty}f_{W_1,W_2}(w_1,w_2)\d w_1\d w_2\\
+		& = \int^{+\infty}_0\d w_1\int^{+\infty}_{w_1}\lambda_1\lambda_2\e^{-w_1\lambda_1-w_2\lambda_2}\,\d w_2\\
+		& = \frac{\lambda_1}{\lambda_1+\lambda_2}
 	\end{split}\]
+	或者另一个思路:卡车的首达时$T\sim \Exp(\lambda_1)$,在$(0,T]$之间没有汽车到达
+	\[\begin{aligned}
+		\p[T=t,N_2(t)=0] &= (\lambda_1 \e^{-\lambda_1 t}\d t)\cdot \frac{\e^{-\lambda_2 t}(\lambda_2 t)^0}{0!} = \lambda_1 \e^{-(\lambda_1+\lambda_2)t}\d t\\
+		\p(W_1<W_2) &= \int_{0}^{+\infty}\p[T=t,N_2(t)=0] = \frac{\lambda_1}{\lambda_1+\lambda_2} 
+	\end{aligned}\]
 \end{solution}
 
 \begin{problem}{2.11}
 	冲击模型(Shock Model)记$N(t)$为某系统到某时刻$t$受到的冲击次数, 它是参数为$\lambda$的Possion过程. 设第k次冲击对系统的损害大小$Y_k$服从参数为$\mu$的指数分布, $Y_k, k = 1, 2, \cdots, $独立同分布. 记$X(t)$为系统所受到的总损害. 当损害超过一定的极限$\alpha$时系统不能运行, 寿命终止, 记$T$为系统寿命. 试求该系统的平均寿命$\E(T)$, 并对所得结果作出直观解释.
-	\par 提示：对非负随机变量$\displaystyle \E(T) = \int^\infty_0 \p(T>t)\d t$\\
+	\par 提示：对非负随机变量$\displaystyle \E(T) = \int^{\infty}_0 \p(T>t)\d t$\\
 \end{problem}
 \begin{solution}[1]
 	\[\begin{split}
@@ -839,7 +869,7 @@
 \end{solution}
 
 \begin{problem}{3.4}
-	$A, B$ 两罐总共装各 $N$ 个球. 作如下实验：在时刻 $n$ 先 $n$ 个球中等概率地任取一球. 然后从 $A, B$ 两罐中任选一个, 选中 $A$ 的概率为 $p$, 选中 $B$ 的概率为 $q$. 之后再将选出的球放入选好的罐中. 设 $X_n$ 为每次试验时 $A$ 罐中的球数. 试求此Markov过程的转移概率矩阵.
+	$A, B$ 两罐总共装着 $N$ 个球. 作如下实验：在时刻 $n$ 先 $N$ 个球中等概率地任取一球. 然后从 $A, B$ 两罐中任选一个, 选中 $A$ 的概率为 $p$, 选中 $B$ 的概率为 $q$. 之后再将选出的球放入选好的罐中. 设 $X_n$ 为每次试验时 $A$ 罐中的球数. 试求此Markov过程的转移概率矩阵.
 \end{problem}
 \begin{solution}
 	\[P_{ij} =
@@ -874,12 +904,10 @@
 		1 & \frac{1}{2} & 0 & \frac{1}{2} \cr
 		2 & 0 & 0 & 1}$
 	\[\begin{split}
-	\therefore & \quad \E(T | X_0 = 0)\\
-			& = \sum^2_{k=0}\E(T|X_0 = 0, X_1 = k)\cdot \p(X_1 = k | X_0 = 0)\\
-			& = \sum^2_{k=0}\E(T|X_1 = k)\cdot \p(X_1 = k | X_0 = 0)\\
+	\therefore \E(T | X_0 = 0) & = \sum^1_{k=0}\E(T|X_0 = 0, X_1 = k)\cdot \p(X_1 = k | X_0 = 0)\\
+			& = \sum^1_{k=0}\E(T|X_1 = k)\cdot \p(X_1 = k | X_0 = 0)\\
 			& = (1+v)\cdot \frac{1}{2} + \E(T| X_1 = 1) \cdot \frac{1}{2}\\
-	\text{及}& \quad \E(T | X_1 = 1)\\
-			& = \sum^2_{k=0}\E(T|X_1 = 1, X_2 = k)\cdot \p(X_2 = k | X_1 = 1)\\
+	\quad \E(T | X_1 = 1) & = \sum^2_{k=0}\E(T|X_1 = 1, X_2 = k)\cdot \p(X_2 = k | X_1 = 1)\\
 			& = \sum^2_{k=0}\E(T|X_2 = k)\cdot \p(X_2 = k | X_1 = 1)\\
 			& = (2+v)\cdot \frac{1}{2} + 0 + \frac{1}{2} \times 2
 	\end{split}\]
@@ -892,6 +920,7 @@
 		& = \frac{1}{4}\sum_{n=0}^{\infty}\sum_{k=0}^{n}\binom{n}{k}\left(\frac{1}{2}\right)^k \left(\frac{1}{4}\right)^{n-k}[k+2(n-k)+2]\\
 		& = \frac{1}{4}\times 24 = 6
 	\end{aligned}\]
+	没想到吧,这还能暴力解.不过结果是Mathematica算的（doge)
 \end{solution}
 
 \begin{problem}{3.6}
@@ -959,7 +988,7 @@
 \end{solution}
 
 \begin{problem}{3.7}
-	记$Z_i, i = 1, 2, \cdots$ 为一串独立同分布的离散随机变量. $\p\{Z_1 = k\} = p_k \geqslant 0, k = 0,1,2,\cdots, \sum\limits^\infty_{k=0} = 1$. 记$X_n = Z_n, n = 1, 2, \cdots$. 试求过程$X_n$的转移概率矩阵.
+	记$Z_i,i=1,2,\cdots$为一串独立同分布的离散随机变量.$\p\{Z_i=k\}=p_k \geqslant 0,k=0,1,2,\cdots,\quad \sum\limits^\infty_{k=0}p_k = 1$.记$X_n = Z_n, n = 1, 2, \cdots$.试求过程$X_n$的转移概率矩阵.
 \end{problem}
 \begin{solution}
 	$\because \p\{X_{n+1} = i_{n+1} | X_1 = i_1, \cdots , X_n = i_n\} = \p\{X_{n+1} = i_{n+1}\}$\\
@@ -1111,13 +1140,13 @@
 \begin{solution}
 	$X_{n+1} =
 	\begin{cases}
-		X_{n+1} & , \text{第n+1次试验成功}\\
-		0 & , \text{第n+1次试验失败}\\
-	\end{cases}\Rightarrow \{X_n\}\text{是M.C.}$\\
+		X_{n+1} & , \text{第$n+1$次试验成功}\\
+		0 & , \text{第$n+1$次试验失败}\\
+	\end{cases}\Rightarrow \{X_n\}\text{是M.C.}$.
 	$\p(X_{n+1} = j | X_n = i) =
 	\begin{cases}
-		p & , j = i + 1\\
-		q & , j = 0\\
+		p, j = i + 1\\
+		q, j = 0
 	\end{cases}$
 	\[\bm{P} =
 		\bordermatrix{
@@ -1209,7 +1238,7 @@
 				0 & \frac{1}{2} & \frac{1}{2}\\
 				\frac{1}{2} & 0 & \frac{1}{2}\\
 				\frac{1}{2} & \frac{1}{2} & 0
-			\end{pmatrix},\\
+		\end{pmatrix},\\[0.5cm]
 		&(3)\begin{pmatrix}
 				\frac{1}{2} & 0 & \frac{1}{2}\\
 				\frac{1}{3} & \frac{1}{3} & \frac{1}{3}\\
@@ -1333,15 +1362,25 @@
 \begin{solution}[1]
 	\begin{enumerate}[label=(\alph*)]
 		\item 反设所有状态均为瞬过或零常返(加强结论),则对$\forall i \in S$, 有
-			  \[\lim_{n\to +\infty} P^{(n)}_{ii} = 0 \qquad (*)\]
+			\begin{equation}
+				\lim_{n\to +\infty} P^{(n)}_{ii} = 0 \label{eq3.15.1}
+			\end{equation}
 			  考虑$P^{(n)}_{ij} = \sum\limits^{+\infty}_{k=1} f^{(k)}_{ij} P^{(n-k)}_{jj}$, 则有
-			  \[\sum^\ell_{k=1} f^{(k)}_{ij} P^{(n-k)}_{jj} \leqslant P^{(n)}_{ij} \leqslant \sum^\ell_{k=1} f^{(k)}_{ij} P^{(n-k)}_{jj} + \sum^{+\infty}_{k=l} f^{(k)}_{ij} \qquad (**)\]
-			  固定$\ell$, 令$n\to +\infty$, 则由$(*)$得
-			  \[0 \leqslant \lim_{n\to +\infty} P^{(n)}_{ij} \leqslant 0 + \sum^{+\infty}_{k=\ell} f^{(k)}_{ij} \qquad (***)\]
-			  在$(***)$中令$\ell \to +\infty$, 由于$\sum\limits^{+\infty}_{k=1} f^{(k)}_{ij} \leqslant 1$收敛
-			  \[\therefore \lim_{n\to +\infty} P^{(n)}_{ij} = 0 \qquad (*4)\]
-			  若此有限状态$M.C.$有$N$个状态, 则\[\sum^{N}_{j=1} P^{(n)}_{ij} = 1 \qquad (*5)\]
-			  $(*5)$中令$n\to +\infty$, 由$(*4)$得$0=1$, 矛盾$\Rightarrow$至少有一个状态是(正)常返的
+			  \begin{equation}
+				  \sum^\ell_{k=1} f^{(k)}_{ij} P^{(n-k)}_{jj} \leqslant P^{(n)}_{ij} \leqslant \sum^\ell_{k=1} f^{(k)}_{ij} P^{(n-k)}_{jj} + \sum^{+\infty}_{k=l} f^{(k)}_{ij} \label{eq3.15.2}
+			  \end{equation}
+			  固定$\ell$, 令$n\to +\infty$, 则由 \eqref{eq3.15.1} 得
+			  \begin{equation}
+				  0 \leqslant \lim_{n\to +\infty} P^{(n)}_{ij} \leqslant 0 + \sum^{+\infty}_{k=\ell} f^{(k)}_{ij} \label{eq3.15.3}
+			  \end{equation}
+			  在 \eqref{eq3.15.3} 中令$\ell \to +\infty$, 由于$\sum\limits^{\infty}_{k=1} f^{(k)}_{ij} \leqslant 1$收敛
+			  \begin{equation}
+				  \therefore \lim_{n\to +\infty} P^{(n)}_{ij} = 0 \label{eq3.15.4}
+			  \end{equation}
+			  若此有限状态M.C.有$N$个状态, 则
+			  \begin{equation}\sum^{N}_{j=1} P^{(n)}_{ij} = 1 \label{eq3.15.5}
+			  \end{equation}
+			  \eqref{eq3.15.5} 中令$n\to +\infty$, 由 \eqref{eq3.15.4} 得$0=1$, 矛盾$\Rightarrow$至少有一个状态是(正)常返的
 		\item 若存在零常返状态$i$, 可构造$C(i) = \{j|i\leftrightarrow j\}$,
 			  则$C(i)$为原M.C.的一不可约子M.C.(有限状态),
 			  于是$C(i)$中所有状态均为零常返, 与有限状态M.C.至少有一个正常返状态矛盾,\\ 
@@ -1356,8 +1395,10 @@
 			  \[1=\lim_{n \to \infty}\sum_{j=0}^{N}P_{ij}^{(n)} = \sum_{j=0}^{N}\lim_{n \to \infty}P_{ij}^{(n)} = \sum_{j=0}^{N}0 = 0\]
 			  矛盾.从而(a)得证
 		\item (反证法)若命题不真,则M.C.至少存在一个零常返状态.设$S_1\subseteq S$为全体零常返状态构成的子集,易证$S_1$为闭集.为叙述方便,无妨设$S_1=\{0,1,2,\cdots ,M\}\quad (M\leqslant N)$.则原M.C.限制在$S_1$上仍为一M.C.,从而有:
-			  \[\sum_{j\in S_1}P_{ij}[w(n)] = \sum_{j=0}^{M}P_{ij}^{(n)} = 1 \qquad (\forall i\in S_1,n\in \mathbb{N})\qquad (*)\]
-			  另一方面,由类似于$(a)$的理由可知,对于$\forall i,j\in S_1$,有$\lim_{n \to \infty}P_{ij}^{(n)} = 0$,从而对(*)式两边取极限得到:
+			\begin{equation}
+				\sum_{j\in S_1}P_{ij}[w(n)] = \sum_{j=0}^{M}P_{ij}^{(n)} = 1 \qquad (\forall i\in S_1,n\in \mathbb{N}) \label{eq3.15b}
+			\end{equation}
+			  另一方面,由类似于$(a)$的理由可知,对于$\forall i,j\in S_1$,有$\lim_{n \to \infty}P_{ij}^{(n)} = 0$,从而对 \eqref {eq3.15b} 式两边取极限得到:
 			  \[0 = \lim_{n \to \infty}\sum_{j=1}^{M}P_{ij}^{(n)} = \lim_{n \to \infty}1 = 1\]
 			  矛盾.从而该M.C.不可能存在零常返状态.即(b)得证.$\qedhere$
 	\end{enumerate}
@@ -1388,7 +1429,7 @@
 			  显然$f^{(0)}_{00} = f^{(1)}_{00} = 0, f^{(2)}_{00} = q_1$
 			  \[
 				\begin{split}
-					\bm{f^{(n)}_{00}} & =
+					f_{00}^{(n)} & =
 					\begin{pmatrix}
 						1 & 0 & 0 & \cdots
 					\end{pmatrix}
@@ -1481,11 +1522,11 @@
 		\item 求解线性方程组$\displaystyle \bm{\pi} = \bm{\pi}\bm{P},\quad \sum_{j=0}^{\infty}\pi _j = 1$解得:
 			  \[
 				\begin{cases}
-					\pi_1 & = \pi_0\\
-					\pi_2 & = p_1 \pi_0\\
-					& \vdots\\
-					\pi_n & = p_1 p_2 \cdots p_{n-1}\pi_0 
-				\end{cases}\quad \text{且}\quad
+					\pi_1 = \pi_0\\
+					\pi_2 = p_1 \pi_0\\
+					\hspace{0.6cm} \vdots\\
+					\pi_n = p_1 p_2 \cdots p_{n-1}\pi_0 
+				\end{cases}\quad \Rightarrow
 				\pi_0 = \frac{1}{2+\sum_{n=1}^{\infty}p_1 p_2 \cdots p_n}
 				\quad \text{故:}
 			  \]
@@ -1564,25 +1605,25 @@
 	\[
 		\bm{P} =
 		\bordermatrix{
-			~ & 0 & 1 & 2 & \cdots & M\!-\!1 & M & M\!+\!1 \cr
-			0 & q & p & 0 & ~ & ~ & ~ & ~\cr
-			1 & pq & p^2\!+\!q^2 & pq & ~ & ~ & ~ & ~\cr
-			2 & 0 & pq & p^2\!+\!q^2 & ~ & ~ & ~ & ~\cr
-			\vdots & ~ & ~ & ~ & \ddots & ~ & ~ & ~\cr
+			~ & 0 & 1 & 2 & \cdots & M\!-\!2 & M-1 & M \cr
+			\qquad 0 & q & p & 0 & ~ & ~ & ~ & ~\cr
+			\qquad 1 & pq & p^2\!+\!q^2 & pq & ~ & ~ & ~ & ~\cr
+			\qquad 2 & 0 & pq & p^2\!+\!q^2 & ~ & ~ & ~ & ~\cr
+			\qquad \vdots & ~ & ~ & ~ & \ddots & ~ & ~ & ~\cr
 			M\!-\!1 & ~ & ~ & ~ & ~ & pq & p^2\!+\!q^2 & pq\cr
-			M & ~ & ~ & ~ & ~ & 0 & pq & q^2\cr}
+			\hspace{0.6cm} M & ~ & ~ & ~ & ~ & 0 & pq & p^2+q\cr}
 	\]
 	由状态转移图易知M.C.为不可约遍历的,求其平稳分布(极限分布)为:
 	设$\bm{\pi}= (\pi_0, \pi_1, \cdots, \pi_M)$为其平稳分布
 	\[
 		\begin{cases}
-			\pi \geqslant 0\\
+			\pi_i \geqslant 0\\
 			\sum\limits^M_{i=0}\pi_i = 1\\
 			\bm{\pi}\bm{P} = \bm{\pi}
 		\end{cases} \Rightarrow
 		\begin{cases}
-			\pi_0 = \frac{1-p}{M+1-p}\\
-			\pi_i = \frac{1}{M+1-p} (i = 1,2,\cdots,M)
+			\displaystyle \pi_0 = \frac{1-p}{M+1-p}\\
+			\displaystyle \pi_i = \frac{1}{M+1-p} \quad (i = 1,2,\cdots,M)
 		\end{cases}
 	\]
 易知此M.C.遍历, \\
@@ -1592,7 +1633,7 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 \]
 \end{solution}
 
-下面几道题涉及分支过程,这部分没讲,故都没写.
+下面几道题涉及分支过程,这部分没讲,故都没写.直接搬运刘杰班助教的习题解答\cite{刘杰班助教}.
 
 \begin{problem}{3.20}
 	血液培养在时刻0从一个红细胞开始,一分钟之后红细胞死亡可能出现下面几种情况:以1/4再生2个红细胞,以1/2的概率再生1个红细胞和1个白细胞,也有1/4的概率产生2个白细胞.再过一分钟后每个红细胞以同样的规律再生下一代而白细胞则不再生.并假定每个细胞的行为是独立的.
@@ -1778,7 +1819,7 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 			  当$t=s$时$\cov(X(t), X(s)) = \E(\sin^2 Ut) = \frac{1}{2}$ \quad $\therefore$ 是宽平稳\\
 			  考虑$F_t(x) = \p(\sin Ut \leqslant x)$, 显然$F_{t+h} = \p[\sin U(t+h) \leqslant x]$与其不一定相同 \quad $\therefore$ 不是严平稳
 		\item \[\E[X(t)] = \frac{1}{2\uppi t}(1-\cos 2\uppi t)\]
-			  \[D[X(t)] = \E\left(\sin Ut - \frac{1}{2\uppi t}(1-\cos 2\uppi t)\right)^2 = \frac{1}{2} - \frac{\sin 4\uppi t}{8\uppi t} - \left(\frac{1-\cos 2\uppi t}{2\uppi t}\right)^2\]
+			  \[\var[X(t)] = \E\left(\sin Ut - \frac{1}{2\uppi t}(1-\cos 2\uppi t)\right)^2 = \frac{1}{2} - \frac{\sin 4\uppi t}{8\uppi t} - \left(\frac{1-\cos 2\uppi t}{2\uppi t}\right)^2\]
 			  都与$t$相关 \quad $\therefore$ 不是宽平稳\\
 			  若其严平稳, 则因二阶矩存在, 应为宽平稳, 矛盾.\quad $\therefore$ 不是严平稳.\\
 	\end{enumerate}
@@ -1819,14 +1860,14 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 \begin{solution}
 	\[
 		\begin{split}
-			\E(X_n) & = \E\left[\sum^N_{k=1}\sigma_k\sqrt{2}(\cos a_k n \cos U_k +\sin a_k n \sin U_k)\right] = 0\\
-			& = \sum_{k=1}^{N}a_k \sqrt{2}\big[\E(\cos U_k)\cos a_k n + \E(\sin U_k)\sin a_k n\big]\\
+			\E(X_n) & = \E\left[\sum^N_{k=1}\sigma_k\sqrt{2}(\cos(a_k n)\cos U_k +\sin(a_k n)\sin U_k)\right]\\
+			& = \sum_{k=1}^{N}\sigma_k \sqrt{2}\big[\E(\cos U_k)\cos a_k n + \E(\sin U_k)\sin a_k n\big]\\
 			& = 0\\
-			\cov(X_n, X_m) & = \E(X_n, X_m)\\
-			& = \E\left[\sum^N_{k=1}\sigma_k\sqrt{2}\cos a_kn-U_k\sum^N_{j=1}\sigma_j\sqrt{2}\cos (a_jm-U_j)\right]\\
-			& = \sum^N_{k=1}2\sigma^2_k\E\left[\cos(a_kn-U_k)\cos(a_km-U_k)\right]\\
-			& = \sum^N_{k=1}\sigma^2_k\E\left[\cos a_k(n-m) + \cos(a_kn + a_km - 2U_k)\right]\\
-			& = \sum^N_{k=1}\sigma^2_k\cos a_k(n-m)\\
+			\cov(X_n, X_m) & = \E(X_n X_m)-\E(X_n)\E(X_m) = \E(X_n X_m)\\
+			& = \E\left[\sum^N_{k=1}\sigma_k\sqrt{2}\cos(a_k n-U_k)\sum^N_{j=1}\sigma_j\sqrt{2}\cos (a_j m-U_j)\right]\\
+			& = \sum^N_{k=1}2\sigma^2_k\E\left[\cos(a_kn-U_k)\cos(a_km-U_k)\right] + \sum_{k\neq j}2\sigma_k\sigma_j\E[\cos(a_k n-U_k)]\E[\cos(a_j m-U_j)]\\
+			& = \sum^N_{k=1}\sigma^2_k\E\left[\cos(a_k(n-m)) + \cos(a_kn + a_km - 2U_k)\right] + 0\\
+			& = \sum^N_{k=1}\sigma^2_k\cos[a_k(n-m)]\\
 		\end{split}
 	\]
 	只与$n-m$有关\quad $\therefore$宽平稳.
@@ -1839,7 +1880,7 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 \end{problem}
 \begin{solution}
 	要求
-	\[\E[Z(t)] = \sum^n_{k=1}\E (lA_k \e^{j\omega_kt}) = const\]
+	\[\E[Z(t)] = \sum^n_{k=1}\E(A_k \e^{j\omega_kt}) = const\]
 	$\therefore \E(A_k) = 0$,要求
 	\[\cov(Z(t), Z(s)) = \E[Z(t)\overline{Z(s)}] = \sum^{\infty}_{k=1}\sum^{\infty}_{\ell=1}\E(A_k A_\ell)\cdot \e^{j\omega_kt - j\omega_\ell s}\]
 	只与$t-s$有关\\
@@ -1853,10 +1894,10 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 	由题意$\E(X_n)=2p-1,\E(X_n^2)=1,\E(S_n)=\frac{1}{\sqrt{n}}\sum_{i=1}^{n}\E(X_1) = \sqrt{n}(2p-1)$
 	\begin{enumerate}[label=(\roman*)]
 		\item \[\begin{split}
-				 & \cov(S_n,S_m) = \E(S_n S_m) = \E(S_n)\E(S_m)\\
-				=& \frac{1}{\sqrt{mn}}\sum_{i=1}^{n}\sum_{j=1}^{m}\E(X_i X_j) - \sqrt{mn}(2p-1)^2 \xlongequal{\text{不妨设}m<n} \\
-				=& \frac{1}{\sqrt{mn}}\left(\sum_{i=1}^{m}\E(X_i^2)+\sum_{(i,j)=(1,1),i\neq j}^{(i,j)=(m,n)}\E(X_i)\E(X_j)\right) - \sqrt{mn}(2p-1)^2\\
-				=& \frac{4m}{\sqrt{mn}}p(1-p)
+				\cov(S_n,S_m) &= \E(S_n S_m) = \E(S_n)\E(S_m)\\
+				&= \frac{1}{\sqrt{mn}}\sum_{i=1}^{n}\sum_{j=1}^{m}\E(X_i X_j) - \sqrt{mn}(2p-1)^2 \xlongequal{\text{不妨设}m<n} \\
+				&= \frac{1}{\sqrt{mn}}\left(\sum_{i=1}^{m}\E(X_i^2)+\sum_{(i,j)=(1,1),i\neq j}^{(i,j)=(m,n)}\E(X_i)\E(X_j)\right) - \sqrt{mn}(2p-1)^2\\
+				&= \frac{4m}{\sqrt{mn}}p(1-p)
 			  \end{split}\]
 		\item \[r_X(n,m)=\E(S_n S_m)=\frac{4\min {m,n}}{\sqrt{mn}}p(1-p)+\sqrt{mn}(2p-1)^2\]
 		\item 若$\{S_n\}$平稳,则$\E(S_n)\equiv const$, 由$\sqrt{2}S_n = \sqrt{n}(2p-1) \Rightarrow p=\frac{1}{2}$
@@ -1869,15 +1910,12 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 \end{problem}
 \begin{solution}
 	以下假定求导数和求期望可交换\\
-	设$\E[lX(t)] = m, D[X(t)] = \sigma^2$\\
-	$\therefore \E(X(t+\Delta t)) = m$\\
-	$\because X'(t) = \lim\limits_{\Delta \to 0}\frac{X(t+\Delta t) - X(t)}{\Delta t}$\\
-	$\therefore \E(X'(t)) = 0$
+	设$\E[X(t)] = m, \var[X(t)] = \sigma^2$\\
+	$\therefore \E[X(t+\Delta t)] = m$\\
+	$\because X'(t) = \lim\limits_{\Delta t \to 0}\frac{X(t+\Delta t) - X(t)}{\Delta t}$\\
+	$\therefore \E[X'(t)] = 0$
 	\[
-		\begin{split}
-			\therefore & \cov(X(t), X'(t))  = \E[X(t)X'(t)] = \frac{1}{2}\E\Big[\big(X^2(t)\big)'\Big] = \frac{1}{2}\big(\E[X^2(t)]\big)'\\
-			& = \frac{1}{2}(\sigma^2 + m^2)' = 0
-		\end{split}
+		\therefore \cov(X(t), X'(t)) = \E[X(t)X'(t)] = \frac{1}{2}\E\Big[\big(X^2(t)\big)'\Big] = \frac{1}{2}\big(\E[X^2(t)]\big)' = \frac{1}{2}(\sigma^2 + m^2)' = 0
 	\]
 	$\therefore$ 不相关
 \end{solution}
@@ -1893,12 +1931,12 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 \end{problem}
 \begin{solution}
 	\begin{enumerate}[label=(\roman*)]
-		\item \[\E[Z(t)W(t)] = \E[X(t+1)X(t-1)] = R(2) = 4\e^{-4}\]
-			  \[
+		\item \[
 				\begin{split}
+					\E[Z(t)W(t)] &= \E[X(t+1)X(t-1)] = R(2) = 4\e^{-4}\\
 					\E[Z(t)W(t)]^2 & = \E\big[X^2(t+1)+2X(t+1)X(t-1)+X^2(t-1)\big]\\
 								& = 2\E[X^2(t)]+2R(2)\\
-								& = 2\big\{D[X(t)]-\E^2[X(t)]\big\} + 4\e^{-4}\\
+								& = 2\big\{\var[X(t)]-\E^2[X(t)]\big\} + 4\e^{-4}\\
 								& = 2R(0) + 4\e^{-4}\\
 								& = 4(1+\e^{-4})
 				\end{split}
@@ -1939,12 +1977,12 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 	提示：对$\varepsilon$用全概率公式.
 \end{problem}
 \begin{solution}
-	设$\varepsilon$可取$\varepsilon_1, \varepsilon_2, \cdots, \varepsilon_n$\\
+	设$\varepsilon$可取$\varepsilon_1, \varepsilon_2, \cdots, \varepsilon_n$,则\\
 	\[
 		\begin{split}
-		\text{则}\, & \p\big\{Y(t_1+h) \leqslant y_1, \cdots, Y(t_k+h) \leqslant y_k\big\}\\
-			& = \p\big\{X(t_1-\varepsilon+h) \leqslant y_1, \cdots, X(t_k-\varepsilon+h) \leqslant y_k\big\}\\
-			& = \sum^n_{i=1}\p(\varepsilon = \varepsilon_i)\p\big\{X(t_1-\varepsilon_i + h) \leqslant y_1, \cdots, X(t_k-\varepsilon_i + h) \leqslant y_k | \varepsilon = \varepsilon_i\big\}
+		& \p\big\{Y(t_1+h) \leqslant y_1, \cdots, Y(t_k+h) \leqslant y_k\big\}\\
+			=& \p\big\{X(t_1-\varepsilon+h) \leqslant y_1, \cdots, X(t_k-\varepsilon+h) \leqslant y_k\big\}\\
+			=& \sum^n_{i=1}\p(\varepsilon = \varepsilon_i)\p\big\{X(t_1-\varepsilon_i + h) \leqslant y_1, \cdots, X(t_k-\varepsilon_i + h) \leqslant y_k | \varepsilon = \varepsilon_i\big\}
 		\end{split}
 	\]
 	$\because X(t)$严平稳
@@ -1970,17 +2008,16 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 	\[E|X(t+\tau)-X(t)|^2 = 2\Re e(R(0)-R(\tau)).\]
 \end{problem}
 \begin{solution}
-	记$m=\E[X(t)]$
+	记$m=\E[X(t)]$,则
 	\[
 		\begin{split}
-			\text{则} \E\big|X(t+\tau) - X(t)\big|^2 & = \E\big|(X(t+\tau)-m)-(X(t)-m)\big|^2\\
-			& = \E\big|X(t+\tau)-m\big|^2 + E\big|X(t)-m\big|^2 - \E\Big[(X(t+\tau)-m)\overline{(X(t)-m)}\,\Big] \\
+			\E\big|X(t+\tau) - X(t)\big|^2 & = \E\big|(X(t+\tau)-m)-(X(t)-m)\big|^2\\
+			& = \E\big|X(t+\tau)-m\big|^2 + \E\big|X(t)-m\big|^2 - \E\Big[(X(t+\tau)-m)\overline{(X(t)-m)}\,\Big] \\
 			& \quad - \E\Big[(X(t)-m)\overline{(X(t+\tau)-m)}\,\Big]\\
 			& = 2R(0)-R(-\tau)-R(\tau)
 		\end{split}
 	\]
-	又$\because R(-\tau) = \overline{R(\tau)}$\\
-	$\therefore \text{上式} = 2\Re e(R(0)-R(\tau))$
+	又$\because R(-\tau) = \overline{R(\tau)}\quad \therefore \text{上式} = 2\Re e(R(0)-R(\tau))$
 \end{solution}
 
 \begin{problem}{4.11}
@@ -2006,7 +2043,7 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 	\[
 		\begin{split}
 			\var(\overline{X}) & = \E\Bigg[\frac{1}{T^2}\bigg(\int^T_0 X(t)\d t - m\bigg)\bigg(\int^T_0 X(s)\d s - m\bigg)\Bigg]\\
-			& = \frac{1}{T^2}\int^T_0\int^T_0 E\big[(X(t)-m)(X(s)-m)\big]\d s \d t\\
+			& = \frac{1}{T^2}\int^T_0\int^T_0 \E\big[(X(t)-m)(X(s)-m)\big]\d s \d t\\
 			& = \frac{1}{T^2}\int^T_0\int^T_0 R(t-s)\d s \d t\\
 			& = \frac{1}{T^2}\int^T_0\int^T_0 a\e^{-b|t-s|}\d s \d t\\
 			& = \frac{2a}{T^2}\int^T_0\d t\int^T_0 \e^{-b|t-s|}\d s\\
@@ -2021,8 +2058,7 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 	提示：利用协方差函数性质4.
 \end{problem}
 \begin{solution}
-	$\E[X^{(n)}(t)] = \big\{\E[X(t)]\big\}^{(n)} = 0$\\
-	$\cov\big(X^{(n)}(t), X^{(n)}(t+\tau)\big) = (-1)^n R^{(2n)}(\tau)$\\
+	$\E[X^{(n)}(t)] = \big\{\E[X(t)]\big\}^{(n)} = 0, \cov\big(X^{(n)}(t), X^{(n)}(t+\tau)\big) = (-1)^n R^{(2n)}(\tau)$\\
 	$\therefore \{X^{(n)}(t)\}$是平稳过程.
 \end{solution}
 
@@ -2086,12 +2122,10 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 			& = R_Y(\tau_1)
 		\end{split}
 	\]
-	$\therefore \{Y_n\}$是平稳过程.\\
-	又易见$X = \{X_n, n \in \mathbb{Z}\}$的协方差函数遍历性成立的充要条件是$Y = \{Y_n, n \in \mathbb{Z}\}$的均值遍历性成立.\\
-	而我们有
+	$\therefore \{Y_n\}$是平稳过程.又易见$X = \{X_n, n \in \mathbb{Z}\}$的协方差函数遍历性成立的充要条件是$Y = \{Y_n, n \in \mathbb{Z}\}$的均值遍历性成立.而我们有
 	\[
 		\begin{split}
-			& \Bigg|\frac{1}{N}\sum^{N-1}_{\tau_1=0}R_Y(\tau_1)\Bigg| \leqslant \frac{1}{N}\sum^{N-1}_{\tau_1=0}\Big|R_Y(\tau_1)\Big|\\
+			\Bigg|\frac{1}{N}\sum^{N-1}_{\tau_1=0}R_Y(\tau_1)\Bigg| \leqslant & \frac{1}{N}\sum^{N-1}_{\tau_1=0}\Big|R_Y(\tau_1)\Big|\\
 			\leqslant & \frac{1}{N}\sum^{N-1}_{\tau_1=0}\bigg[R^2_X(\tau_1) + \Big(R^2_X(\tau_1+\tau)+R^2_X(\tau_1-\tau)\Big)/2\bigg]\rightarrow 0, (N\rightarrow +\infty)
 		\end{split}
 	\]
@@ -2130,8 +2164,7 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 	\]
 	\[\therefore \E(X_n X_{n+m}) - \frac{4}{9} = -\frac{1}{2}\Big(\E(X_n X_{n+m}) - \frac{4}{9}\Big) = \cdots = \Big(-\frac{1}{2}\Big)^m\Big(\E(X^2_n) - \frac{4}{9}\Big) = \frac{1}{18}\Big(-\frac{1}{2}\Big)^m\]
 	\[\therefore R_X(n,n+m) = \E\left(X_n - \frac{2}{3}\right)\left(X_{n+m} - \frac{2}{3}\right) = \E(X_n X_{n+m}) - \frac{4}{9}= \frac{1}{18}\Big(-\frac{1}{2}\Big)^m = R(m)\]
-	$\therefore \{X_n\}$是平稳序列,又$\because \lim\limits_{m\to +\infty} R(m) = 0$\\
-	$\therefore$是均值遍历的
+	$\therefore \{X_n\}$是平稳序列,又$\because \lim\limits_{m\to +\infty} R(m) = 0 \therefore$是均值遍历的
 \end{solution}
 
 \begin{problem}{4.17}
@@ -2149,8 +2182,7 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 			& = R(m)
 		\end{split}
 	\]
-	$\therefore \{X_n\}$为平稳序列\\
-	又$\lim\limits_{m\to +\infty}R(m) = 0,~\therefore$是均值遍历的\\
+	$\therefore \{X_n\}$为平稳序列,又$\lim\limits_{m\to +\infty}R(m) = 0,~\therefore$是均值遍历的\\
 \end{solution}
 
 \noindent\textcolor{red}{以下没有特殊声明, 所涉及的过程均假定均值函数为$0$}
@@ -2248,12 +2280,12 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 		& =\frac{1}{2\uppi}\cdot 2\uppi j\cdot \res\left[\frac{\e^{jz|\tau|}}{1+z^2},j\right] = \frac{\e^{-|\tau|}}{2}\\
 		R(0) & =\var(X(t)) = \E[X^2(t)] = \frac{1}{2} = \sigma ^2
 	\end{split}\]
-	$\therefore X(t)\sim N(0,\frac{1}{2})\quad \frac{X(t)}{\sigma}=\sqrt{2}X(t)\sim N(0,1)$
-	\[\therefore \p[0.5\leqslant X(t)\leqslant 1] = \p[\frac{\sqrt{2}}{2}\leqslant \sqrt{2}X(t)\leqslant \sqrt{2}] = \Phi(\sqrt{2}) - \Phi(\frac{\sqrt{2}}{2})\]
+	$\therefore X(t)\sim N(0,\frac{1}{2})\quad \frac{X(t)}{\sigma}=\sqrt{2}X(t)\sim N(0,1)$\\
+	$\displaystyle \therefore \p[0.5\leqslant X(t)\leqslant 1] = \p\left[\frac{\sqrt{2}}{2}\leqslant \sqrt{2}X(t)\leqslant \sqrt{2}\right] = \Phi(\sqrt{2}) - \Phi\left(\frac{\sqrt{2}}{2}\right)$
 \end{solution}
 
 \begin{problem}{4.25}
-	已知平稳过程$\{X(t)\}$的功率谱密度为$S(\omega)=\frac{\omega ^2+1}{\omega^4 + 4\omega^2 + 3}$,求$X(t)$的均方值.
+	已知平稳过程$\{X(t)\}$的功率谱密度为$S(\omega)=\frac{\omega^2+1}{\omega^4 + 4\omega^2 + 3}$,求$X(t)$的均方值.
 \end{problem}
 \begin{solution}
 	\[S(\omega) = \frac{\omega^2}{(\omega^2+1)(\omega^2+3)} = -\frac{1}{2(\omega^2+1)}+\frac{3}{2(\omega^2+3)}\]
@@ -2514,10 +2546,12 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 \end{solution}
 
 \clearpage
+\addcontentsline{toc}{section}{参考文献}
 \begin{thebibliography}{99}
 	\bibitem{jkadbear}jkadbear \emph{方兆本著随机过程第三版 习题答案}\\ Available at \url{https://github.com/jkadbear/Stochastic_Process}
 	\bibitem{白鹏}白鹏.\emph{方兆本等著《随机过程》习题解答}[M].
-    \bibitem{郑班助教}郑班助教 \emph{随机过程作业解答}
+	\bibitem{刘杰班助教}刘杰班助教 \emph{随机过程习题课}
+    \bibitem{郑班助教}郑班助教 \emph{随机过程作业习题解答}
 	\bibitem{郑坚坚}郑老师 \emph{习题课讲义}
 \end{thebibliography}
 
@@ -2526,14 +2560,17 @@ P_{\text{淋}} = p\pi_0+p(1-p)\pi_M = 2p\frac{1-p}{M+1-p}
 \section{符号说明}
 \begin{table}[H]
 	\centering
-	\begin{tabular}{ccc} \hline
-		符号 & 中文 & 英文 \\ \hline
-		$\E$ $E$ & 期望 & Expectation \\ \hline
-		$\p$ $P$ & 概率 & Probability \\ \hline
-    $\bm{P}$ & 状态转移矩阵 & State Transition Matrix \\ \hline
-		$P_{ij}^{(n)}$ & $i$到$j$的$n$步转移概率 & $n$-step transition probability from $i$ to $j$ \\ \hline
-		$X\sim \Exp(\lambda)$ & 指数分布 & Exponential Distribution \\ \hline
-		$X\sim \poi(\lambda)$ & 泊松分布 & Poisson Distribution \\ \hline
+	\begin{tabular}{ccc}
+		\toprule
+		符号 & 中文 & 英文 \\
+		\midrule
+		$\E$ $E$ & 期望 & Expectation \\
+		$\p$ $P$ & 概率 & Probability \\
+    $\bm{P}$ & 状态转移矩阵 & State Transition Matrix \\
+		$P_{ij}^{(n)}$ & $i$到$j$的$n$步转移概率 & $n$-step transition probability from $i$ to $j$ \\
+		$X\sim \Exp(\lambda)$ & 指数分布 & Exponential Distribution \\
+		$X\sim \poi(\lambda)$ & 泊松分布 & Poisson Distribution \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
