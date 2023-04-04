@@ -5,3 +5,6 @@
 排版采用了自定义的环境，所有图片皆用TikZ绘制，可以直接编译。取消了分chapter编译，主要是太懒了
 
 制作本答案为练习LaTeX打字技术，以及git的使用（属实难受）
+
+PDF版可访问USTC校内主页下载
+http://home.ustc.edu.cn/~cc22155/resource/SPanswer.pdf
