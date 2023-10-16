@@ -1,0 +1,83 @@
+\documentclass{article}
+
+\usepackage{etex}
+\reserveinserts{10000}
+\usepackage{ctex}%提供中文
+\usepackage{amsmath}%数学包必有
+\usepackage{amssymb}%特殊数学符号，如\therefore，amsmath不提供这些符号
+\usepackage{amsthm}
+\usepackage{upgreek}%提供希腊字母直立体，如\uppi（国标里圆周率pi需要直立）
+\usepackage{extarrows}%特殊的箭头和等号，提供\xlongequal，\xrightarrow等命令，可以在等号和箭头上加文字
+\usepackage{bm}%提供命令\bm{P}，用于数学环境加粗，以替代\boldsymbol{P}
+\usepackage{url}%提供\url{}命令，防止有些url里面会有下划线_，这样会报错没有使用$$数学环境
+\usepackage{float}%浮动体包，以figure浮动体为例，提供\begin{figure}[H]，H参数表示强制将浮动体放在此处，禁止浮动
+\usepackage{enumitem}%提供特殊标号，如\begin{enumerate}[label=(\roman*)]，或者[label=(\chinese*)]或[label=(\alph*)]等，比enumerate包更自由
+\usepackage{booktabs}%提供三线表等
+\usepackage{color}%提供颜色
+\usepackage{geometry}%定制页面布局
+\usepackage{framed}%提供定制framed环境，如23,24行定制的problem环境
+\usepackage{tikz}%画图包
+\usetikzlibrary{arrows.meta}%提供tikz特殊箭头
+\usetikzlibrary{positioning}%提供TikZ各node的相对位置
+\usetikzlibrary{decorations.pathreplacing}%提供大括号显示某段距离
+
+\usepackage[colorlinks,linkcolor=blue,anchorcolor=red,citecolor=green]{hyperref}
+%提供超链接，hyperref包一定要放在最后引用，因为它大量renewcommand了一些命令
+
+\geometry{
+  textwidth=140mm,
+  textheight=220mm,
+  left=25mm,
+  right=25mm,
+  top=20mm, 
+  bottom=20mm,
+  headheight=2cm,
+  headsep=4mm,
+  footskip=12mm,
+  heightrounded,
+}
+\newenvironment{problem}[1]{\begin{framed}\par\noindent\textbf{#1} }{\end{framed}\par}
+\newenvironment{solution}[1][]{\noindent\textcolor{green}{Solution} \textcolor{red}{#1}\\ }%这里的参数指的是解法1或解法2
+
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\var}{\mathrm{Var}}
+\newcommand{\cov}{\mathrm{Cov}}
+\renewcommand{\d}{\mathop{}\!\mathrm{d}}
+\newcommand{\p}{\mathbb{P}}
+\newcommand{\iid}{\mathop{}\!\mathrm{i.i.d.}}
+\newcommand{\poi}{\text{Poi}\,}
+\newcommand{\Exp}{\text{Exp}\,}
+\newcommand{\res}{\text{Res}}
+\renewcommand\thefootnote{\textcircled{\arabic{footnote}}}
+
+\title{《方兆本随机过程第三版》答案整理}
+\author{ypa}
+\date{2022年12月19日起\\ Last Modified: \today}
+
+\begin{document}
+\maketitle
+
+\setcounter{section}{-1}
+\section{前言}
+\noindent{}尚未完成的题目:
+\begin{enumerate}[label=(\chinese*)]\vspace{-1em}
+  \item 2.5\vspace{-1em}
+  \item 3.25-3.31\vspace{-1em}
+  \item 4.9 4.18 4.19 4.30 4.32 4.33 4.35-4.42\vspace{-1em}
+\end{enumerate}
+第三章Markov过程中纯生过程、生灭过程、分支过程不讲；第四章平稳过程中白噪声序列、AR($p$)模型、Yule-Walker方程等不讲\\
+欢迎访问主页\url{http://home.ustc.edu.cn/~cc22155}\quad 本答案的PDF文件和LaTeX文件可在主页下载,\vspace{-1em}
+\begin{itemize}
+  \item \url{http://home.ustc.edu.cn/~cc22155/resource/SPanswer.pdf}\vspace{-1em}
+	\item \url{http://home.ustc.edu.cn/~cc22155/resource/SPanswer.tex}
+\end{itemize}\vspace{-1em}
+如有错漏,欢迎联系\href{mailto:lzw2003@mail.ustc.edu.cn}{\texttt{lzw2003@mail.ustc.edu.cn}}
+
+\tableofcontents
+\include{src/chapter1.tex}
+\include{src/chapter2.tex}
+\include{src/chapter3.tex}
+\include{src/chapter4.tex}
+
+\end{document}
